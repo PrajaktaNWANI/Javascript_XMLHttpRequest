@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>XMLHttpRequest</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #2a364f;
+            display: flex;
+            flex-direction: column;
+            place-items: center;
+            text-align: center;
+        }
+        
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            background-color: white;
+            font-size: 20px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            padding: 2px 16px;
+        }
+        
+        h1 {
+            color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>India</h1>
+    <div id="container" class="">
+
+    </div>
+    <script>
+        const container = document.querySelector("#container");
+
+        const requet = new XMLHttpRequest();
+        requet.open("GET", "https://restcountries.com/v3.1/name/India");
+        requet.send();
+
+
+        requet.addEventListener("load", function() {
+            //console.log(this.responseText);
+
+            const [data] = JSON.parse(this.responseText);
+
+            console.log(data);
+            const language = data.languages;
+
+            const onelang = Object.values(language);
+
+
+            const HtmlElement = `
+            <div class="card">
+                <img src="${data.flags.png}" alt="Avatar" style="width:100%">
+                <div class="container">
+                    <h4><b>${data.name.common}</b></h4> 
+                    <hr>
+                    <h4><b>Capital : ${data.capital}</b></h4> 
+                    <h6><b>currencies : Currencies : ${data.capital}</b></h6> 
+                    <h6><b>Languages : ${onelang}</b></h6> 
+                    <h6><b>Population : ${data.population}</b></h6> 
+                </div>
+            </div>`;
+
+
+            container.insertAdjacentHTML("afterbegin", HtmlElement);
+
+        })
+    </script>
+</body>
+
+</html>
